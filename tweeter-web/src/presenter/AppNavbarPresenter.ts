@@ -1,6 +1,6 @@
-import { User, AuthToken } from "tweeter-shared";
+import { AuthToken } from "tweeter-shared";
 import { UserService } from "../model.service/UserService";
-import { MessageView, Presenter, View } from "./Presenter";
+import { MessageView, Presenter } from "./Presenter";
 
 export interface AppNavbarView extends MessageView{
   navigate: (url: string) => void;

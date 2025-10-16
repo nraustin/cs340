@@ -23,10 +23,10 @@ const Login = (props: Props) => {
   const { displayErrorMessage } = useMessageActions();
 
   const observer: LoginView = {
-    updateUserInfo: updateUserInfo,
-    navigate: navigate,
-    displayErrorMessage: displayErrorMessage,
-    setIsLoading: setIsLoading
+    updateUserInfo,
+    navigate,
+    displayErrorMessage,
+    setIsLoading,
   }
 
   const presenterRef = useRef<LoginPresenter | null>(null)

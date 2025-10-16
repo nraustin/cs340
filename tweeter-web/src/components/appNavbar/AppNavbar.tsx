@@ -2,29 +2,36 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useMessageActions } from "../toaster/MessageHooks";
-import { useUserInfoActions, useUserInfoContext } from "../userInfo/UserInfoHooks";
+import {
+  useUserInfoActions,
+  useUserInfoContext,
+} from "../userInfo/UserInfoHooks";
 import "./AppNavbar.css";
 import { useRef } from "react";
-import { AppNavbarPresenter, AppNavbarView } from "../../presenter/AppNavbarPresenter";
+import {
+  AppNavbarPresenter,
+  AppNavbarView,
+} from "../../presenter/AppNavbarPresenter";
 
 const AppNavbar = () => {
   const location = useLocation();
   const { authToken, displayedUser } = useUserInfoContext();
   const { clearUserInfo } = useUserInfoActions();
   const navigate = useNavigate();
-  const { displayInfoMessage, displayErrorMessage, deleteMessage } = useMessageActions();
+  const { displayInfoMessage, displayErrorMessage, deleteMessage } =
+    useMessageActions();
 
   const observer: AppNavbarView = {
-      displayInfoMessage: displayInfoMessage,
-      deleteMessage: deleteMessage,
-      displayErrorMessage: displayErrorMessage,
-      navigate: navigate,
-      clearUserInfo: clearUserInfo
-    }
+    clearUserInfo,
+    navigate,
+    displayInfoMessage,
+    displayErrorMessage,
+    deleteMessage,
+  };
 
-  const presenterRef = useRef<AppNavbarPresenter | null>(null)
-    if(!presenterRef.current){
-      presenterRef.current = new AppNavbarPresenter(observer);
+  const presenterRef = useRef<AppNavbarPresenter | null>(null);
+  if (!presenterRef.current) {
+    presenterRef.current = new AppNavbarPresenter(observer);
   }
 
   const logOut = async () => {

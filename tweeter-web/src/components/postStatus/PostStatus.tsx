@@ -1,9 +1,8 @@
 import { useRef, useState } from "react";
-import { AuthToken, Status } from "tweeter-shared";
+import { PostStatusPresenter, PostStatusView } from "../../presenter/PostStatusPresenter";
 import { useMessageActions } from "../toaster/MessageHooks";
 import { useUserInfoContext } from "../userInfo/UserInfoHooks";
 import "./PostStatus.css";
-import { PostStatusPresenter, PostStatusView } from "../../presenter/PostStatusPresenter";
 
 const PostStatus = () => {
   const { displayInfoMessage, displayErrorMessage, deleteMessage } = useMessageActions();
@@ -13,11 +12,11 @@ const PostStatus = () => {
   const [post, setPost] = useState("");
 
   const observer: PostStatusView = {
-      displayInfoMessage: displayInfoMessage,
-      displayErrorMessage: displayErrorMessage,
-      deleteMessage: deleteMessage,
-      setPost: setPost,
-      setIsLoading: setIsLoading,
+      setPost,
+      setIsLoading,
+      displayInfoMessage,
+      displayErrorMessage,
+      deleteMessage,
     }
 
   const presenterRef = useRef<PostStatusPresenter | null>(null)

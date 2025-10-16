@@ -19,9 +19,9 @@ export const useUserNavigation = (featurePath: string) => {
     const navigate = useNavigate();
 
     const observer: UserInfoHooksView = {
-        setDisplayedUser: setDisplayedUser,
-        navigate: navigate,
-        displayErrorMessage: displayErrorMessage,
+        setDisplayedUser,
+        navigate,
+        displayErrorMessage,
     }
 
     const presenterRef = useRef<UserInfoHooksPresenter | null>(null)

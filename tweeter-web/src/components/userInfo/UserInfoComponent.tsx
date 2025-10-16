@@ -16,18 +16,17 @@ const UserInfo = () => {
   const { currentUser, authToken, displayedUser } = useUserInfoContext();
   const { setDisplayedUser } = useUserInfoActions();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const observer: UserInfoView = {
-    displayInfoMessage: displayInfoMessage,
-    displayErrorMessage: displayErrorMessage,
-    deleteMessage: deleteMessage,
-    setDisplayedUser: setDisplayedUser,
-    setIsLoading: setIsLoading,
-    setIsFollower: setIsFollower,
-    setFolloweeCount: setFolloweeCount,
-    setFollowerCount: setFollowerCount,
-    navigate: navigate
+    setDisplayedUser,
+    setIsLoading,
+    setIsFollower,
+    setFolloweeCount,
+    setFollowerCount,
+    navigate,
+    displayErrorMessage,
+    displayInfoMessage,
+    deleteMessage,
   }
 
   const presenterRef = useRef<UserInfoPresenter | null>(null)

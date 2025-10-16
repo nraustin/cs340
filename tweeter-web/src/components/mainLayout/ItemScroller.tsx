@@ -31,7 +31,7 @@ const ItemScroller = <T, U extends Service, P extends PagedItemPresenter<T, U>>(
   const observer: PagedItemView<T> = {
     addItems: (newItems: T[]) =>
       setItems((previousItems) => [...previousItems, ...newItems]),
-    displayErrorMessage: displayErrorMessage,
+    displayErrorMessage,
   };
 
   const presenterRef = useRef<P | null>(null);
