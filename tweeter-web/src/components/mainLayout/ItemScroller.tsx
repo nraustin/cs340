@@ -1,36 +1,41 @@
 import { useEffect, useRef, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useParams } from "react-router-dom";
-import { User } from "tweeter-shared";
-import { PagedItemView } from "../../presenter/PagedItemPresenter";
-import { UserItemPresenter } from "../../presenter/UserItemPresenter";
+import {
+  PagedItemPresenter,
+  PagedItemView,
+} from "../../presenter/PagedItemPresenter";
 import { useMessageActions } from "../toaster/MessageHooks";
-import { useUserInfoActions, useUserInfoContext } from "../userInfo/UserInfoHooks";
-import UserItem from "../userItem/UserItem";
+import {
+  useUserInfoActions,
+  useUserInfoContext,
+} from "../userInfo/UserInfoHooks";
+import { Service } from "../../model.service/Service";
 
-
-interface Props {
-    featureUrl: string;
-    presenterFactory: (observer: PagedItemView<User>) => UserItemPresenter;
+interface Props<T, U extends Service, P extends PagedItemPresenter<T, U>> {
+  featureUrl: string;
+  presenterFactory: (observer: PagedItemView<T>) => P;
+  itemComponentFactory: (item: T, featurePath: string) => JSX.Element;
 }
 
-
-const UserItemScroller = (props: Props) => {
+const ItemScroller = <T, U extends Service, P extends PagedItemPresenter<T, U>>(
+  props: Props<T, U, P>
+) => {
   const { displayErrorMessage } = useMessageActions();
-  const [items, setItems] = useState<User[]>([]);
+  const [items, setItems] = useState<T[]>([]);
 
   const { displayedUser, authToken } = useUserInfoContext();
   const { setDisplayedUser } = useUserInfoActions();
   const { displayedUser: displayedUserAliasParam } = useParams();
 
-  const observer: PagedItemView<User> = {
-    addItems: (newItems: User[]) =>
+  const observer: PagedItemView<T> = {
+    addItems: (newItems: T[]) =>
       setItems((previousItems) => [...previousItems, ...newItems]),
-    displayErrorMessage: displayErrorMessage
-  }
+    displayErrorMessage: displayErrorMessage,
+  };
 
-  const presenterRef = useRef<UserItemPresenter | null>(null)
-  if(!presenterRef.current) {
+  const presenterRef = useRef<P | null>(null);
+  if (!presenterRef.current) {
     presenterRef.current = props.presenterFactory(observer);
   }
 
@@ -41,11 +46,13 @@ const UserItemScroller = (props: Props) => {
       displayedUserAliasParam &&
       displayedUserAliasParam != displayedUser!.alias
     ) {
-      presenterRef.current!.getUser(authToken!, displayedUserAliasParam!).then((toUser) => {
-        if (toUser) {
-          setDisplayedUser(toUser);
-        }
-      });
+      presenterRef
+        .current!.getUser(authToken!, displayedUserAliasParam!)
+        .then((toUser) => {
+          if (toUser) {
+            setDisplayedUser(toUser);
+          }
+        });
     }
   }, [displayedUserAliasParam]);
 
@@ -61,7 +68,7 @@ const UserItemScroller = (props: Props) => {
   };
 
   const loadMoreItems = async () => {
-    presenterRef.current!.loadMoreItems(authToken!, displayedUser!.alias)
+    presenterRef.current!.loadMoreItems(authToken!, displayedUser!.alias);
   };
 
   return (
@@ -78,12 +85,12 @@ const UserItemScroller = (props: Props) => {
             key={index}
             className="row mb-3 mx-0 px-0 border rounded bg-white"
           >
-            <UserItem user={item} featurePath={props.featureUrl} />
+            {props.itemComponentFactory(item, props.featureUrl)}
           </div>
         ))}
       </InfiniteScroll>
     </div>
-  ); 
-}
+  );
+};
 
-export default UserItemScroller;
+export default ItemScroller;

@@ -6,7 +6,10 @@ import { useUserInfoActions } from "../../userInfo/UserInfoHooks";
 import AuthenticationFields from "../AuthenticationFields";
 import AuthenticationFormLayout from "../AuthenticationFormLayout";
 import "./Register.css";
-import { RegisterPresenter, RegisterView } from "../../../presenter/RegisterPresenter";
+import {
+  RegisterPresenter,
+  RegisterView,
+} from "../../../presenter/RegisterPresenter";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -23,22 +26,28 @@ const Register = () => {
   const { displayErrorMessage } = useMessageActions();
 
   const observer: RegisterView = {
-      updateUserInfo: updateUserInfo,
-      navigate: navigate,
-      displayErrorMessage: displayErrorMessage,
-      setImageUrl: setImageUrl,
-      setImageFileExtension: setImageFileExtension,
-      setIsLoading: setIsLoading
-  }
-  
-  const presenterRef = useRef<RegisterPresenter | null>(null)
-    if(!presenterRef.current){
-      presenterRef.current = new RegisterPresenter(observer);
+    updateUserInfo,
+    navigate,
+    setImageUrl,
+    setImageFileExtension,
+    setIsLoading,
+    displayErrorMessage,
+  };
+
+  const presenterRef = useRef<RegisterPresenter | null>(null);
+  if (!presenterRef.current) {
+    presenterRef.current = new RegisterPresenter(observer);
   }
 
   const checkSubmitButtonStatus = (): boolean => {
-    return presenterRef.current!.checkSubmitButtonStatus(firstName, lastName, alias, 
-                                                        password, imageUrl, imageFileExtension);
+    return presenterRef.current!.checkSubmitButtonStatus(
+      firstName,
+      lastName,
+      alias,
+      password,
+      imageUrl,
+      imageFileExtension
+    );
   };
 
   const registerOnEnter = (event: React.KeyboardEvent<HTMLElement>) => {
@@ -53,9 +62,14 @@ const Register = () => {
   };
 
   const doRegister = async () => {
-    presenterRef.current!.doRegister(firstName, lastName, alias, password, rememberMe);
+    presenterRef.current!.doRegister(
+      firstName,
+      lastName,
+      alias,
+      password,
+      rememberMe
+    );
   };
-
 
   const inputFieldFactory = () => {
     return (
@@ -100,7 +114,11 @@ const Register = () => {
           {presenterRef.current!.imageUrl.length > 0 && (
             <>
               <label htmlFor="imageFileInput">User Image</label>
-              <img src={presenterRef.current!.imageUrl} className="img-thumbnail" alt=""></img>
+              <img
+                src={presenterRef.current!.imageUrl}
+                className="img-thumbnail"
+                alt=""
+              ></img>
             </>
           )}
         </div>
