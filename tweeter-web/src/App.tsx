@@ -96,7 +96,7 @@ const AuthenticatedRoutes = () => {
               presenterFactory={(view: PagedItemView<Status>) =>
                 new StoryPresenter(view)
               }
-                itemComponentFactory={itemFactory("/story")}
+              itemComponentFactory={itemFactory("/story")}
             />
           }
         />
