@@ -37,6 +37,7 @@ export class RegisterPresenter extends AuthenticationPresenter<RegisterView>{
       const reader = new FileReader();
       reader.onload = (event: ProgressEvent<FileReader>) => {
         const imageStringBase64 = event.target?.result as string;
+        console.log("within handleImage", imageStringBase64)
 
         // Remove unnecessary file metadata from the start of the string.
         const imageStringBase64BufferContents =
@@ -47,13 +48,14 @@ export class RegisterPresenter extends AuthenticationPresenter<RegisterView>{
           "base64"
         );
 
-        this._imageBytes = bytes;
+        this._imageBytes = bytes
       };
       reader.readAsDataURL(file);
 
       // Set image file extension (and move to a separate method)
       const fileExtension = this.getFileExtension(file);
       if (fileExtension) {
+        this._imageFileExtension = fileExtension
         this._view.setImageFileExtension(fileExtension);
       }
     } else {

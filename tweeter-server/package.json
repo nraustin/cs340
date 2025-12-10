@@ -1,0 +1,28 @@
+{
+  "name": "tweeter-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run compile",
+    "compile": "npm run clean && tsc",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.943.0",
+    "@aws-sdk/client-sqs": "^3.947.0",
+    "@aws-sdk/lib-dynamodb": "^3.940.0",
+    "@types/bcryptjs": "^2.4.6",
+    "bcryptjs": "^3.0.3",
+    "date-fns": "^3.6.0",
+    "tweeter-shared": "file:../tweeter-shared",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/aws-sdk": "^0.0.42"
+  }
+}

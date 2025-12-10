@@ -15,6 +15,10 @@ export class PostStatusPresenter extends Presenter<PostStatusView> {
     this._statusService = new StatusService();
   }
 
+  public get statusService() {
+    return this._statusService;
+  }
+
   public async submitPost(
     post: string,
     currentUser: User,
@@ -31,7 +35,7 @@ export class PostStatusPresenter extends Presenter<PostStatusView> {
 
       const status = new Status(post, currentUser!, Date.now());
 
-      await this._statusService.postStatus(authToken!, status);
+      await this.statusService.postStatus(authToken!, status);
 
       this._view.setPost("");
       this._view.displayInfoMessage("Status posted!", 2000);

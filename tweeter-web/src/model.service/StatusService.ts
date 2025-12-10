@@ -1,35 +1,54 @@
-import { AuthToken, FakeData, Status } from "tweeter-shared";
+import {
+  AuthToken,
+  PagedItemRequest,
+  PostStatusRequest,
+  Status
+} from "tweeter-shared";
+import { StatusDto } from "tweeter-shared/dist/model/dto/StatusDto";
+import { ServerFacade } from "../network/ServerFacade";
 import { Service } from "./Service";
 
-
 export class StatusService implements Service {
-    public async loadMoreFeedItems (
-        authToken: AuthToken,
-        userAlias: string,
-        pageSize: number,
-        lastItem: Status | null
-    ): Promise<[Status[], boolean]> {
-        // TODO: Replace with the result of calling server
-        return FakeData.instance.getPageOfStatuses(lastItem, pageSize);
-    };
-    
-    public async loadMoreStoryItems (
-        authToken: AuthToken,
-        userAlias: string,
-        pageSize: number,
-        lastItem: Status | null
-    ): Promise<[Status[], boolean]> {
-        // TODO: Replace with the result of calling server
-        return FakeData.instance.getPageOfStatuses(lastItem, pageSize);
-    };
+  private serverFacade = new ServerFacade();
 
-    public async postStatus (
-        authToken: AuthToken,
-        newStatus: Status
-    ): Promise<void> {
-        // Pause so we can see the logging out message. Remove when connected to the server
-        await new Promise((f) => setTimeout(f, 2000));
-
-        // TODO: Call the server to post the status
+  public async loadMoreFeedItems(
+    authToken: AuthToken,
+    userAlias: string,
+    pageSize: number,
+    lastItem: Status | null
+  ): Promise<[Status[], boolean]> {
+    const request: PagedItemRequest<StatusDto> = {
+      token: (authToken as any)._token,
+      userAlias: userAlias,
+      pageSize: pageSize,
+      lastItem: lastItem ? lastItem.dto : null,
     };
+    return await this.serverFacade.getMoreFeedItems(request);
+  }
+
+  public async loadMoreStoryItems(
+    authToken: AuthToken,
+    userAlias: string,
+    pageSize: number,
+    lastItem: Status | null
+  ): Promise<[Status[], boolean]> {
+    const request: PagedItemRequest<StatusDto> = {
+      token: (authToken as any)._token,
+      userAlias: userAlias,
+      pageSize: pageSize,
+      lastItem: lastItem ? lastItem.dto : null,
+    };
+    return await this.serverFacade.getMoreStoryItems(request);
+  }
+
+  public async postStatus(
+    authToken: AuthToken,
+    newStatus: Status
+  ): Promise<void> {
+    const request: PostStatusRequest = {
+      token: (authToken as any)._token,
+      status: newStatus.dto,
+    };
+    return await this.serverFacade.postStatus(request);
+  }
 }

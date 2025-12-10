@@ -4,7 +4,10 @@ import { useMessageActions } from "../toaster/MessageHooks";
 import { useUserInfoContext } from "../userInfo/UserInfoHooks";
 import "./PostStatus.css";
 
-const PostStatus = () => {
+interface Props {
+  presenter?: PostStatusPresenter;
+}
+const PostStatus = (props: Props) => {
   const { displayInfoMessage, displayErrorMessage, deleteMessage } = useMessageActions();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +24,7 @@ const PostStatus = () => {
 
   const presenterRef = useRef<PostStatusPresenter | null>(null)
     if(!presenterRef.current){
-      presenterRef.current = new PostStatusPresenter(observer);
+      presenterRef.current = props.presenter?? new PostStatusPresenter(observer);
   }
 
   const submitPost = async (event: React.MouseEvent) => {

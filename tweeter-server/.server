@@ -1,0 +1,21 @@
+BUCKET='s3uploadbucketcs340'
+LAMBDA_ROLE='arn:aws:iam::833145261281:role/lambdaRole'
+EDIT_LAMBDALIST='
+tweeterGetFollowees | lambda/follow/GetFolloweesLambda.handler
+tweeterGetFollowers | lambda/follow/GetFollowersLambda.handler
+tweeterGetIsFollower | lambda/follow/GetIsFollowerLambda.handler
+tweeterGetFolloweeCount | lambda/follow/GetFolloweeCountLambda.handler
+tweeterGetFollowerCount | lambda/follow/GetFollowerCountLambda.handler
+tweeterFollowUserLambda | lambda/follow/FollowUserLambda.handler
+tweeterUnfollowUserLambda | lambda/follow/UnfollowUserLambda.handler 
+tweeterGetFeedItemsLambda | lambda/status/GetMoreFeedItemsLambda.handler
+tweeterGetStoryItemsLambda | lambda/status/GetMoreStoryItemsLambda.handler
+tweeterPostStatusLambda | lambda/status/PostStatusLambda.handler
+tweeterGetUserLambda | lambda/user/GetUserLambda.handler
+tweeterLoginUserLambda | lambda/user/LoginUserLambda.handler
+tweeterLogoutUserLambda | lambda/user/LogoutUserLambda.handler
+tweeterRegisterUserLambda | lambda/user/RegisterUserLambda.handler
+tweeterPostProcessLambda | lambda/sqs/PostProcessLambda.handler
+tweeterFeedProcessLambda | lambda/sqs/FeedProcessLambda.handler
+'
+LAMBDALAYER_ARN='arn:aws:lambda:us-west-2:833145261281:layer:tweeterLambdaLayer:11'
